@@ -22,4 +22,24 @@ On 0 lives Stop the game and Show Scoreboard.
 Start new game "Enter"
 
 
+1. Movement + Collision // Lacho
+
+2. Asteroids + Collision // Svetlana
+
+3. Enemy Ships Types + Enemy Atack // Todor
+
+4. Key Bindings: Enter, Space, Q + Background
+
+5. Scores + Lives + Score Log // Angel
+
+6. Graphics + Boosters + Sound // Yanko
+
+
+// The asteroids are falling from top to bottom.
+// Enemies from Right to left and shooting down.
+// Background is moving.
+
+
+
+
 
