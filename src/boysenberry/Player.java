@@ -28,7 +28,7 @@ public class Player implements IGameObject {
 	/**
 	 * The game context.
 	 */
-	private IGameInstance context;
+	private IGame context;
 	
 	/**
 	 * 
@@ -37,7 +37,7 @@ public class Player implements IGameObject {
 	 * @param y The starting y coordinate.
 	 * @param speed The player's movement speed.
 	 */
-	public Player(IGameInstance context, int x, int y, int speed) {
+	public Player(IGame context, int x, int y, int speed) {
 		this.x = x;
 		this.y = y;
 		this.speed = speed;

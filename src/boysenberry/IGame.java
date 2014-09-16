@@ -2,7 +2,7 @@ package boysenberry;
 
 import java.awt.Graphics;
 
-public interface IGameInstance extends IGameObject {
+public interface IGame extends IGameObject {
 	/**
 	 * Add object to Game's container of gameObjects
 	 * 

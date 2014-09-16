@@ -15,7 +15,7 @@ import javax.swing.JFrame;
  * @since       2014-09-15
  */
 @SuppressWarnings("serial")
-public class Game extends JFrame implements IGameInstance {
+public class Game extends JFrame implements IGame {
 	
 	/**
 	 * Game window width.
