@@ -121,20 +121,31 @@ public class Game extends JFrame implements IGame {
 			long time = System.currentTimeMillis();
 			update();
 			draw();
-			time = (1000 / fps) - (System.currentTimeMillis() - time);
-			if (time > 0) {
-				try {
-					Thread.sleep(time);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-					System.exit(1);
-				}
-			}
+			syncFrames(time);
+
 		}
 
 		setVisible(false);
 	}
 
+	/**
+	 * Synchronize frames.
+	 * 
+	 * @param time
+	 *            The length of this frame.
+	 */
+	void syncFrames(long time) {
+		time = (1000 / fps) - (System.currentTimeMillis() - time);
+		if (time > 0) {
+			try {
+				Thread.sleep(time);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+				System.exit(1);
+			}
+		}
+	}
+	
 	/**
 	 * Check user input, object movement and other events.
 	 */

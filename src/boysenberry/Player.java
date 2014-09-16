@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
  * Represents the player object.
  */
 public class Player implements IGameObject {
+	
 	/**
 	 * The player's x coordinate.
 	 */

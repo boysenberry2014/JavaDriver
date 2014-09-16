@@ -6,6 +6,7 @@ import java.awt.Graphics;
  * Base object representing the game itself.
  */
 public interface IGame extends IGameObject {
+	
 	/**
 	 * Add object to Game's container of gameObjects
 	 * 
