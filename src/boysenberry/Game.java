@@ -15,16 +15,6 @@ import javax.swing.JFrame;
  */
 @SuppressWarnings("serial")
 public class Game extends JFrame {
-
-	/**
-	 * The width of the game window. 
-	 */
-	private static int windowWidth = 600;
-	
-	/**
-	 * The height of the game window.
-	 */
-	private static int windowHeight = 600;
 	
 	/**
 	 * Does the game need to quit?
@@ -43,7 +33,7 @@ public class Game extends JFrame {
 	/**
 	 * Draw to rear buffer ONLY, then swap buffers.
 	 */
-	private BufferedImage rearBuffer;
+	private DrawContext drawContext = DrawContext.get();
 	
 	/**
 	 * Listen for user input.
@@ -53,8 +43,8 @@ public class Game extends JFrame {
 	/*
 	 * Dummy variables used for testing.
 	 */
-	private int x = windowWidth / 2;
-	private int y = windowHeight / 2;
+	private int x = drawContext.getWidth() / 2;
+	private int y = drawContext.getHeight() / 2;
 	
 	/**
 	 * Main method for the game.
@@ -71,16 +61,15 @@ public class Game extends JFrame {
 	 */
 	public Game() {
 		setTitle("Java Driver 3000");
-		setSize(Game.windowWidth, Game.windowHeight);
+		setSize(drawContext.getWidth(), drawContext.getHeight());
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 		
 		insets = getInsets();
-		setSize(insets.left + windowWidth + insets.right,
-				insets.top + windowHeight + insets.bottom);
+		setSize(insets.left + drawContext.getWidth() + insets.right,
+				insets.top + drawContext.getHeight() + insets.bottom);
 		
-		rearBuffer = new BufferedImage(windowWidth, windowHeight, BufferedImage.TYPE_INT_RGB);
 		input = new UserInputHandler(this);
 	}
 	
@@ -135,13 +124,13 @@ public class Game extends JFrame {
     {
     	Graphics front = getGraphics();
     	
-    	Graphics rear = rearBuffer.getGraphics();
+    	Graphics rear = drawContext.getGraphics();
     	rear.setColor(Color.WHITE);
-    	rear.fillRect(0, 0, windowWidth, windowHeight);
+    	rear.fillRect(0, 0, drawContext.getWidth(), drawContext.getHeight());
     	
     	rear.setColor(Color.BLACK);
     	rear.fillOval(x, y, 10, 10);
-    	front.drawImage(rearBuffer, insets.left, insets.top, this);
+    	front.drawImage(drawContext, insets.left, insets.top, this);
     } 
 
 }
