@@ -25,20 +25,17 @@ public interface IGameInstance extends IGameObject {
 	 */
 	public UserInputHandler getUserInputHandler();
 	
-	/**
-	 * This method actually runs the game.
-	 */
+	// This method actually runs the game.
+	
     public void run();
    
-	/**
-	 * Check user input, object movement and other events.
-	 */
+	// Check user input, object movement and other events.
+    
     @Override
     public void update();
    
-    /**
-     * Draw everything.
-     */
+    // Draw everything.
+    
     @Override
     public void draw();
 }

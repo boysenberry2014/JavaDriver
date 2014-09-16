@@ -10,65 +10,48 @@ import java.util.List;
 import javax.swing.JFrame;
 
 /**
- * @author      Todor Samardzhiev <tdsamardzhiev89@gmail.com>
+ * @author      Todor Samardzhiev <tdsamardzhiev89@gmail.com>, Yanko Alexandrov <superactro@gmail.com>, 
  * @version     0.1
  * @since       2014-09-15
  */
 @SuppressWarnings("serial")
 public class Game extends JFrame implements IGameInstance {
 	
-	/**
-	 * Game window width.
-	 */
+	
+	 // Game window width.
+	 
 	public static int windowWidth = 600;
 	
-	/**
-	 * Game window height.
-	 */
+	// Game window height.
+	
 	public static int windowHeight = 600;
 	
-	/**
-	 * Does the game need to quit?
-	 */
+	// Does the game need to quit?
+	
 	private boolean done;
-	/**
-	 * The game's frames per second rate.
-	 */
+	
+	// The game's frames per second rate.
+	
 	private int fps = 60;
 	
-	/**
-	 * Specify game's border.
-	 */
+	// Specify game's border.
+	
 	private Insets insets;
 	
-	/**
-	 * Draw to rear buffer ONLY, then swap buffers.
-	 */
+	// Draw to rear buffer ONLY, then swap buffers.
+	
 	private BufferedImage rearBuffer = new BufferedImage(windowWidth, windowHeight, BufferedImage.TYPE_INT_RGB);
 	
-	/**
-	 * Helper for handling user input.
-	 */
+	// Helper for handling user input.
+	
 	UserInputHandler handler;
 	
-	/**
-	 * The list of all game objects.
-	 */
+	// The list of all game objects.
+	
 	private List<IGameObject> gameObjects;
 	
-	/**
-	 * Main method for the game.
-	 *
-	 * @param args Command line arguments (none used).
-	 */
-	public static void main(String[] args) {
-		Game game = new Game();
-		game.run();
-	}
+	// Initialize everything needed to run.
 	
-	/**
-	 * Initialize everything needed to run.
-	 */
 	public Game() {
 		setTitle("Java Driver 3000");
 		setSize(rearBuffer.getWidth(), rearBuffer.getHeight());
@@ -140,9 +123,8 @@ public class Game extends JFrame implements IGameInstance {
     	setVisible(false);
     }
    
-	/**
-	 * Check user input, object movement and other events.
-	 */
+	// Check user input, object movement and other events.
+	
     @Override
     public void update()
     {
@@ -151,9 +133,8 @@ public class Game extends JFrame implements IGameInstance {
     	}
     }
    
-    /**
-     * Draw everything.
-     */
+    // Draw everything.
+    
     @Override
     public void draw()
     {	
@@ -167,5 +148,15 @@ public class Game extends JFrame implements IGameInstance {
     	
     	getGraphics().drawImage(rearBuffer, insets.left, insets.top, this);
     } 
+    
+    /**
+	 * Main method for the game.
+	 *
+	 * @param args Command line arguments (none used).
+	 */
+	public static void main(String[] args) {
+		Game game = new Game();
+		game.run();
+	}
 
 }

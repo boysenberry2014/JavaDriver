@@ -3,20 +3,14 @@ package boysenberry;
 import java.awt.Component;
 import java.awt.event.*;
 
-/**
- * @author      Todor Samardzhiev <tdsamardzhiev89@gmail.com>
- * @version     0.1
- * @since       2014-09-15
- */
 public class UserInputHandler implements KeyListener {
-	/**
-	 * Maximum number of keys we can handle.
-	 */
+	
+	//Maximum number of keys we can handle.
+	
 	private static int keysCount = 256;
 	
-	/**
-	 * Array for the keys' states.
-	 */
+	// Array for the keys' states.
+	
 	private boolean keys[];
 	
 	/**
@@ -24,6 +18,7 @@ public class UserInputHandler implements KeyListener {
 	 * 
 	 * @param c Item to get input from.
 	 */
+	
 	public UserInputHandler(Component c) {
 		keys = new boolean[keysCount];
 		c.addKeyListener(this);
@@ -35,6 +30,7 @@ public class UserInputHandler implements KeyListener {
 	 * @param key Index of the key to check for.
 	 * @return Is the key pressed or not.s
 	 */
+	
 	public boolean isKeyDown(int key) {
 		validateKey(key);
 		return keys[key];
@@ -45,6 +41,7 @@ public class UserInputHandler implements KeyListener {
 	 * 
 	 * @param e Event representing a key press.
 	 */
+	
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
@@ -57,6 +54,7 @@ public class UserInputHandler implements KeyListener {
 	 * 
 	 * @param e Event representing a key release.
 	 */
+	
 	@Override
 	public void keyReleased(KeyEvent e) {
 		int key = e.getKeyCode();
@@ -64,9 +62,8 @@ public class UserInputHandler implements KeyListener {
 		keys[key] = false;
 	}
 	
-	/**
-	 * Empty method.
-	 */
+	// Empty method.
+	
 	@Override 
 	public void keyTyped(KeyEvent e) {};
 	
