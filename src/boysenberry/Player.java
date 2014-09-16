@@ -53,7 +53,7 @@ public class Player implements IGameObject {
 	 */
 	@Override
 	public void draw() {
-		Graphics graphics = context.getRearBufferGraphics();
+		Graphics graphics = context.getRearBuffer().getGraphics();
 		graphics.setColor(Color.BLACK);
 		graphics.fillOval(x, y, 10, 10);
 

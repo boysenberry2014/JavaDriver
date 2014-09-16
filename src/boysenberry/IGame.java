@@ -1,6 +1,6 @@
 package boysenberry;
 
-import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 
 /**
  * Base object representing the game itself.
@@ -19,9 +19,9 @@ public interface IGame extends IGameObject {
 	 * Get the rear buffer's graphics context. Game objects should use this
 	 * context to draw!
 	 * 
-	 * @return The rear buffer's graphics context.
+	 * @return The rear buffer.
 	 */
-	public Graphics getRearBufferGraphics();
+	public BufferedImage getRearBuffer();
 
 	/**
 	 * Get the game's global UserInputHandler.

@@ -97,11 +97,11 @@ public class Game extends JFrame implements IGame {
 	 * Get the rear buffer's graphics context. Game objects should use this
 	 * context to draw!
 	 * 
-	 * @return The rear buffer's graphics context.
+	 * @return The rear buffer.
 	 */
 	@Override
-	public Graphics getRearBufferGraphics() {
-		return rearBuffer.getGraphics();
+	public BufferedImage getRearBuffer() {
+		return rearBuffer;
 	}
 
 	/**
