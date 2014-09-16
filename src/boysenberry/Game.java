@@ -10,8 +10,9 @@ import java.util.List;
 import javax.swing.JFrame;
 
 /**
- * @author Todor Samardzhiev <tdsamardzhiev89@gmail.com>, Yanko Alexandrov
- *         <superactro@gmail.com>,
+ * @author Todor Samardzhiev <tdsamardzhiev89@gmail.com>
+ * @author Yanko Alexandrov <superactro@gmail.com>
+ * 
  * @version 0.1
  * @since 2014-09-15
  */
