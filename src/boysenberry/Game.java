@@ -10,9 +10,10 @@ import java.util.List;
 import javax.swing.JFrame;
 
 /**
+ * The main class for the game.
+ * 
  * @author Todor Samardzhiev <tdsamardzhiev89@gmail.com>
  * @author Yanko Alexandrov <superactro@gmail.com>
- * 
  * @version 0.1
  * @since 2014-09-15
  */
