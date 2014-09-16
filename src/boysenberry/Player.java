@@ -4,29 +4,29 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 
+/**
+ * Represents the player object.
+ */
 public class Player implements IGameObject {
-	// The player's x coordinate.
-	
+	/**
+	 * The player's x coordinate.
+	 */
 	private int x;
 	
-	// The player's y coordinate.
-	
+	/**
+	 * The player's y coordinate.
+	 */
 	private int y;
 	
-	// The player's speed.
-	
+	/**
+	 * The player's speed.
+	 */
 	private int speed;
 	
-<<<<<<< HEAD
-	// The game context.
-	
-	private IGameInstance context;
-=======
 	/**
 	 * The game context.
 	 */
 	private IGame context;
->>>>>>> 0bc07f87e00c2f6316bd6951a464fe4640737723
 	
 	/**
 	 * 
@@ -43,8 +43,9 @@ public class Player implements IGameObject {
 		context.addGameObject(this);
 	}
 
-	// Draw the player object.
-	
+	/**
+	 * Draw the player object.
+	 */
 	@Override
 	public void draw() {
 		Graphics graphics = context.getRearBufferGraphics();
@@ -53,8 +54,9 @@ public class Player implements IGameObject {
 
 	}
 
-	// Update the player object's status and coordinates.
-	
+	/**
+	 * Update the player object's status and coordinates.
+	 */
 	@Override
 	public void update() {
 		UserInputHandler input = context.getUserInputHandler();

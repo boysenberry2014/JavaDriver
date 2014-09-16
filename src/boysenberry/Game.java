@@ -18,46 +18,51 @@ import javax.swing.JFrame;
 public class Game extends JFrame implements IGame {
 	
 	
-	 // Game window width.
+	/**
+	 * Game window width.
+	 */
 	 
 	public static int windowWidth = 600;
 	
-	// Game window height.
+	/**
+	 * Game window height.
+	 */
 	
 	public static int windowHeight = 600;
 	
-	// Does the game need to quit?
-	
+	/**
+	 *  Does the game need to quit?
+	 */
 	private boolean done;
 	
-<<<<<<< HEAD
-	// The game's frames per second rate.
-	
-=======
 	/**
 	 * The game's frames per second rate.
 	 */
->>>>>>> 0bc07f87e00c2f6316bd6951a464fe4640737723
 	private int fps = 60;
 	
-	// Specify game's border.
-	
+	/**
+	 * Specify game's border. 
+	 */
 	private Insets insets;
 	
-	// Draw to rear buffer ONLY, then swap buffers.
-	
+	/**
+	 * Draw to rear buffer ONLY, then swap buffers.
+	 */
 	private BufferedImage rearBuffer = new BufferedImage(windowWidth, windowHeight, BufferedImage.TYPE_INT_RGB);
 	
-	// Helper for handling user input.
-	
+	/**
+	 * Helper for handling user input.
+	 */
 	UserInputHandler handler;
 	
-	// The list of all game objects.
-	
+	/**
+	 * Container for all the game's objects.
+	 */
 	private List<IGameObject> gameObjects;
 	
-	// Initialize everything needed to run.
-	
+	/**
+	 * Initialize everything needed to run.
+	 */
 	public Game() {
 		setTitle("Java Driver 3000");
 		setSize(rearBuffer.getWidth(), rearBuffer.getHeight());
@@ -128,9 +133,10 @@ public class Game extends JFrame implements IGame {
     	
     	setVisible(false);
     }
-   
-	// Check user input, object movement and other events.
 	
+	/**
+	 * Check user input, object movement and other events.
+	 */
     @Override
     public void update()
     {
@@ -139,7 +145,9 @@ public class Game extends JFrame implements IGame {
     	}
     }
    
-    // Draw everything.
+    /**
+     * Draw everything.
+     */
     
     @Override
     public void draw()
