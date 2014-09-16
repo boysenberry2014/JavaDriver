@@ -3,8 +3,9 @@ package boysenberry;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Insets;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 
@@ -14,7 +15,17 @@ import javax.swing.JFrame;
  * @since       2014-09-15
  */
 @SuppressWarnings("serial")
-public class Game extends JFrame {
+public class Game extends JFrame implements IGameInstance {
+	
+	/**
+	 * Game window width.
+	 */
+	public static int windowWidth = 600;
+	
+	/**
+	 * Game window height.
+	 */
+	public static int windowHeight = 600;
 	
 	/**
 	 * Does the game need to quit?
@@ -33,18 +44,17 @@ public class Game extends JFrame {
 	/**
 	 * Draw to rear buffer ONLY, then swap buffers.
 	 */
-	private DrawContext drawContext = DrawContext.get();
+	private BufferedImage rearBuffer = new BufferedImage(windowWidth, windowHeight, BufferedImage.TYPE_INT_RGB);
 	
 	/**
-	 * Listen for user input.
+	 * Helper for handling user input.
 	 */
-	private UserInputHandler input;
+	UserInputHandler handler;
 	
-	/*
-	 * Dummy variables used for testing.
+	/**
+	 * The list of all game objects.
 	 */
-	private int x = drawContext.getWidth() / 2;
-	private int y = drawContext.getHeight() / 2;
+	private List<IGameObject> gameObjects;
 	
 	/**
 	 * Main method for the game.
@@ -61,21 +71,56 @@ public class Game extends JFrame {
 	 */
 	public Game() {
 		setTitle("Java Driver 3000");
-		setSize(drawContext.getWidth(), drawContext.getHeight());
+		setSize(rearBuffer.getWidth(), rearBuffer.getHeight());
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 		
 		insets = getInsets();
-		setSize(insets.left + drawContext.getWidth() + insets.right,
-				insets.top + drawContext.getHeight() + insets.bottom);
+		setSize(insets.left + rearBuffer.getWidth() + insets.right,
+				insets.top + rearBuffer.getHeight() + insets.bottom);
 		
-		input = new UserInputHandler(this);
+		handler = new UserInputHandler(this);
+		
+		gameObjects = new ArrayList<IGameObject>();
+		new Player(this, rearBuffer.getWidth() / 2, rearBuffer.getHeight() / 2, 5);
+	}
+	
+	/**
+	 * Add object to Game's container of gameObjects
+	 * 
+	 * @param o The game object to be added to the list.
+	 */
+	@Override
+	public void addGameObject(IGameObject o) {
+		gameObjects.add(o);
+	}
+	
+	/**
+	 * Get the rear buffer's graphics context.
+	 * Game objects should use this context to draw!
+	 * 
+	 * @return The rear buffer's graphics context.
+	 */
+	@Override
+	public Graphics getRearBufferGraphics() {
+		return rearBuffer.getGraphics();
+	}
+	
+	/**
+	 * Get the game's global UserInputHandler.
+	 * 
+	 * @return The game's UserInputHandler object.
+	 */
+	@Override
+	public UserInputHandler getUserInputHandler() {
+		return handler;
 	}
 	
 	/**
 	 * This method actually runs the game.
 	 */
+	@Override
     public void run() {
     	while(!done) {
     		long time = System.currentTimeMillis();
@@ -98,39 +143,29 @@ public class Game extends JFrame {
 	/**
 	 * Check user input, object movement and other events.
 	 */
-    private void update()
+    @Override
+    public void update()
     {
-           if (input.isKeyDown(KeyEvent.VK_RIGHT)) {
-        	   x += 5;
-           }
-           
-           if (input.isKeyDown(KeyEvent.VK_LEFT)) {
-        	   x -= 5;
-           }
-           
-           if (input.isKeyDown(KeyEvent.VK_UP)) {
-        	   y -= 5;
-           }
-           
-           if (input.isKeyDown(KeyEvent.VK_DOWN)) {
-        	   y += 5;
-           }
+    	for (IGameObject o : gameObjects) {
+    		o.update();
+    	}
     }
    
     /**
      * Draw everything.
      */
-    private void draw()
-    {
-    	Graphics front = getGraphics();
+    @Override
+    public void draw()
+    {	
+		Graphics rear = rearBuffer.getGraphics();
+		rear.setColor(Color.WHITE);
+		rear.fillRect(0, 0, rearBuffer.getWidth(), rearBuffer.getHeight());
+    	 
+    	for (IGameObject o : gameObjects) {
+    		o.draw();
+    	}
     	
-    	Graphics rear = drawContext.getGraphics();
-    	rear.setColor(Color.WHITE);
-    	rear.fillRect(0, 0, drawContext.getWidth(), drawContext.getHeight());
-    	
-    	rear.setColor(Color.BLACK);
-    	rear.fillOval(x, y, 10, 10);
-    	front.drawImage(drawContext, insets.left, insets.top, this);
+    	getGraphics().drawImage(rearBuffer, insets.left, insets.top, this);
     } 
 
 }

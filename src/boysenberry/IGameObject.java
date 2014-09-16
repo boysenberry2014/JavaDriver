@@ -5,14 +5,16 @@ package boysenberry;
  * @version     0.1
  * @since       2014-09-16
  */
-public interface GameObject {
+public interface IGameObject {
+
 	/**
-	 * Draw the game object on screen.
+	 * Draw the object on screen.
 	 */
-	void draw();
+	public void draw();
 	
 	/**
-	 * Update the game object.
+	 * Update the object.
 	 */
-	void update();
+	public void update();
+	
 }
