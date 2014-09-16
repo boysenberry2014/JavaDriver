@@ -21,13 +21,11 @@ public class Game extends JFrame implements IGame {
 	/**
 	 * Game window width.
 	 */
-
 	public static int windowWidth = 600;
 
 	/**
 	 * Game window height.
 	 */
-
 	public static int windowHeight = 600;
 
 	/**
