@@ -31,6 +31,7 @@ public class Game extends JFrame implements IGame {
 	 * Does the game need to quit?
 	 */
 	private boolean done;
+	
 	/**
 	 * The game's frames per second rate.
 	 */
