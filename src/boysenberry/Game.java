@@ -15,7 +15,7 @@ import javax.swing.JFrame;
  * @since       2014-09-15
  */
 @SuppressWarnings("serial")
-public class Game extends JFrame implements IGameInstance {
+public class Game extends JFrame implements IGame {
 	
 	
 	 // Game window width.
@@ -30,8 +30,14 @@ public class Game extends JFrame implements IGameInstance {
 	
 	private boolean done;
 	
+<<<<<<< HEAD
 	// The game's frames per second rate.
 	
+=======
+	/**
+	 * The game's frames per second rate.
+	 */
+>>>>>>> 0bc07f87e00c2f6316bd6951a464fe4640737723
 	private int fps = 60;
 	
 	// Specify game's border.
