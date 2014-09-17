@@ -82,16 +82,16 @@ public class Player implements IPlayer {
 	@Override
 	public void update() {
 		UserInputHandler input = context.getUserInputHandler();
-		if (input.isKeyDown(KeyEvent.VK_RIGHT)) {
+		if (input.isKeyDown(KeyEvent.VK_RIGHT) && x + getWidth() < context.getWidth()) {
 			x += speed;
 		}
-		if (input.isKeyDown(KeyEvent.VK_LEFT)) {
+		if (input.isKeyDown(KeyEvent.VK_LEFT) && x > 0) {
 			x -= speed;
 		}
-		if (input.isKeyDown(KeyEvent.VK_UP)) {
+		if (input.isKeyDown(KeyEvent.VK_UP) && y > 0) {
 			y -= speed;
 		}
-		if (input.isKeyDown(KeyEvent.VK_DOWN)) {
+		if (input.isKeyDown(KeyEvent.VK_DOWN) && y + getHeight() < context.getHeight()) {
 			y += speed;
 		}
 	}
