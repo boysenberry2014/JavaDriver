@@ -6,8 +6,12 @@ import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.JFrame;
+
+import boysenberry.enemy.Bomber;
+import boysenberry.enemy.IEnemy;
 
 /**
  * The main class for the game.
@@ -54,18 +58,28 @@ public class Game extends JFrame implements IGame {
 	/**
 	 * Helper for handling user input.
 	 */
-	UserInputHandler handler;
+	private UserInputHandler handler;
 
+	/**
+	 * Game's random generator.
+	 */
+	private Random random;
+	
 	/**
 	 * Container for all the game's objects.
 	 */
 	private List<IGameObject> gameObjects;
+	
+	/**
+	 * Enemies also need to add themselves here.
+	 */
+	private List<IEnemy> enemies;
 
 	/**
 	 * Initialize everything needed to run.
 	 */
 	public Game() {
-		setTitle("Java Driver 3000");
+		setTitle("Space Shooter");
 		setSize(rearBuffer.getWidth(), rearBuffer.getHeight());
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -76,12 +90,24 @@ public class Game extends JFrame implements IGame {
 				+ rearBuffer.getHeight() + insets.bottom);
 
 		handler = new UserInputHandler(this);
-
+		random = new Random();
+		
 		gameObjects = new ArrayList<IGameObject>();
 		new Player(this, rearBuffer.getWidth() / 2, rearBuffer.getHeight() / 2,
 				5);
+		
+		enemies = new ArrayList<IEnemy>();
 	}
 
+	/**
+	 * Get the random number generator.
+	 * 
+	 * @return The game's Random object.
+	 */
+	public Random getRNG() {
+		return random;
+	}
+	
 	/**
 	 * Add object to Game's container of gameObjects
 	 * 
@@ -90,7 +116,24 @@ public class Game extends JFrame implements IGame {
 	 */
 	@Override
 	public void addGameObject(IGameObject o) {
+		if (gameObjects.contains(o)) {
+			throw new IllegalArgumentException("Cannot add object twice!");
+		}
+		
 		gameObjects.add(o);
+	}
+	
+	/**
+	 * Add object to Game's container of gameObjects
+	 * 
+	 * @param o
+	 *            The game object to be added to the list.
+	 */
+	@Override
+	public void removeGameObject(IGameObject o) {
+		if (!gameObjects.contains(o))
+			throw new IllegalArgumentException("Cannot remove nonexistant object.");
+		gameObjects.remove(o);
 	}
 
 	/**
@@ -148,11 +191,20 @@ public class Game extends JFrame implements IGame {
 		}
 	}
 	
+	// TODO: Use separate class to manage enemies!!!
+	private void checkAddBomber() {
+		if (random.nextInt(60) == 1) {
+			new Bomber(this);
+		}
+	}
+	
 	/**
 	 * Check user input, object movement and other events.
 	 */
 	@Override
 	public void update() {
+		checkAddBomber();
+		
 		for (IGameObject o : gameObjects) {
 			o.update();
 		}
@@ -164,7 +216,7 @@ public class Game extends JFrame implements IGame {
 	@Override
 	public void draw() {
 		Graphics rear = rearBuffer.getGraphics();
-		rear.setColor(Color.WHITE);
+		rear.setColor(Color.BLACK);
 		rear.fillRect(0, 0, rearBuffer.getWidth(), rearBuffer.getHeight());
 
 		for (IGameObject o : gameObjects) {
@@ -183,6 +235,36 @@ public class Game extends JFrame implements IGame {
 	public static void main(String[] args) {
 		Game game = new Game();
 		game.run();
+	}
+
+	/**
+	 * Add enemy to the game.
+	 * 
+	 * @param e Enemy to add.
+	 */
+	@Override
+	public void addEnemy(IEnemy e) {
+		if (enemies.contains(e)) {
+			throw new IllegalArgumentException("Cannot add enemy twice!");
+		}
+		
+		enemies.add(e);
+		
+	}
+
+	/**
+	 * Remove enemy from the game.
+	 * 
+	 * @param e Enemy to remove.
+	 */
+	@Override
+	public void removeEnemy(IEnemy e) {
+		if (!enemies.contains(e)) {
+			throw new IllegalArgumentException("Cannot remove nonexistant enemy!");
+		}
+		
+		enemies.remove(e);
+		
 	}
 
 }
