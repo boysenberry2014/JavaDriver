@@ -1,13 +1,17 @@
 package boysenberry;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 /**
  * Represents the player object.
  */
-public class Player implements IGameObject {
+public class Player implements IPlayer {
 	
 	/**
 	 * The player's x coordinate.
@@ -30,6 +34,11 @@ public class Player implements IGameObject {
 	private IGame context;
 
 	/**
+	 * The player's image.
+	 */
+	private BufferedImage image;
+	
+	/**
 	 * 
 	 * @param context
 	 *            The game context
@@ -45,6 +54,15 @@ public class Player implements IGameObject {
 		this.y = y;
 		this.speed = speed;
 		this.context = context;
+		
+		File imgFile = new File("lib/img/player.png");
+		try {
+			this.image = ImageIO.read(imgFile);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.err.println("Couldn't load image " + imgFile.getName());
+			System.exit(1);
+		}
 		context.addGameObject(this);
 	}
 
@@ -54,8 +72,7 @@ public class Player implements IGameObject {
 	@Override
 	public void draw() {
 		Graphics graphics = context.getRearBuffer().getGraphics();
-		graphics.setColor(Color.BLACK);
-		graphics.fillOval(x, y, 10, 10);
+		graphics.drawImage(image, x, y, null);
 
 	}
 
@@ -77,6 +94,46 @@ public class Player implements IGameObject {
 		if (input.isKeyDown(KeyEvent.VK_DOWN)) {
 			y += speed;
 		}
+	}
+
+	/**
+	 * Get the player's x coordinate.
+	 * 
+	 * @return The player's x coordinate.
+	 */
+	@Override
+	public int getX() {
+		return x;
+	}
+
+	/**
+	 * Get the player's y coordinate.
+	 * 
+	 * @return The player's y coordinate.
+	 */
+	@Override
+	public int getY() {
+		return y;
+	}
+
+	/**
+	 * Get the player's width coordinate.
+	 * 
+	 * @return The player's width coordinate.
+	 */
+	@Override
+	public int getWidth() {
+		return image.getWidth();
+	}
+
+	/**
+	 * Get the player's height coordinate.
+	 * 
+	 * @return The player's height coordinate.
+	 */
+	@Override
+	public int getHeight() {
+		return image.getHeight();
 	}
 
 }
