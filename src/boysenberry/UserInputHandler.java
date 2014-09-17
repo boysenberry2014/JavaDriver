@@ -2,12 +2,6 @@ package boysenberry;
 
 import java.awt.Component;
 import java.awt.event.*;
-
-/**
- * @author      Todor Samardzhiev <tdsamardzhiev89@gmail.com>
- * @version     0.1
- * @since       2014-09-15
- */
 public class UserInputHandler implements KeyListener {
 	/**
 	 * Maximum number of keys we can handle.
