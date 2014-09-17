@@ -11,6 +11,7 @@ import boysenberry.IGame;
 
 public class FallingObject implements IFallingObject{
 	private int speed;
+	private BufferedImage image;
 	
 	protected int x;
     protected int y;
@@ -64,7 +65,7 @@ public class FallingObject implements IFallingObject{
 	}
 	
 	@Override
-	protected void draw(BufferedImage image) {
+	public void draw() {
 		Graphics graphics = context.getRearBuffer().getGraphics();
 		graphics.drawImage(image, x, y, null);		
 	}

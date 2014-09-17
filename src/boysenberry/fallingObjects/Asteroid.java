@@ -47,9 +47,4 @@ public class Asteroid extends FallingObject {
     public void registerCollision() {
         this.destroy();
     }	
-    
-    @Override
-	public void draw() {
-    	super.draw(this.image);		
-	}
 }
