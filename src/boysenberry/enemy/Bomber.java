@@ -27,6 +27,10 @@ public class Bomber extends Enemy {
 	@Override
 	public void update() {
 		setX(getX() + getSpeed());
+		
+		if (getX() > getContext().getWidth()) {
+			setGarbage(true);
+		}
 
 	}
 

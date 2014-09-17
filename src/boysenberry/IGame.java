@@ -43,14 +43,7 @@ public interface IGame extends IGameObject {
 	/**
 	 * Run the game.
 	 */
-	void run();
-
-	/**
-	 * Add game object to the game's container.
-	 * 
-	 * @param o
-	 */
-	void removeGameObject(IGameObject o);
+	public void run();
 	
 	/**
 	 * Add enemy to the game.
@@ -58,11 +51,4 @@ public interface IGame extends IGameObject {
 	 * @param e Enemy to add.
 	 */
 	void addEnemy(IEnemy e);
-	
-	/**
-	 * Remove enemy from the game.
-	 * 
-	 * @param e Enemy to remove.
-	 */
-	void removeEnemy(IEnemy e);
 }

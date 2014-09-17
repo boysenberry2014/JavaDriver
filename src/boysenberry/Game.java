@@ -6,12 +6,14 @@ import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Random;
 
 import javax.swing.JFrame;
 
 import boysenberry.enemy.Bomber;
 import boysenberry.enemy.IEnemy;
+import boysenberry.enemy.Scout;
 
 /**
  * The main class for the game.
@@ -129,8 +131,7 @@ public class Game extends JFrame implements IGame {
 	 * @param o
 	 *            The game object to be added to the list.
 	 */
-	@Override
-	public void removeGameObject(IGameObject o) {
+	private void removeGameObject(IGameObject o) {
 		if (!gameObjects.contains(o))
 			throw new IllegalArgumentException("Cannot remove nonexistant object.");
 		gameObjects.remove(o);
@@ -164,6 +165,7 @@ public class Game extends JFrame implements IGame {
 	public void run() {
 		while (!done) {
 			long time = System.currentTimeMillis();
+			refreshEnemies();
 			update();
 			draw();
 			syncFrames(time);
@@ -192,9 +194,25 @@ public class Game extends JFrame implements IGame {
 	}
 	
 	// TODO: Use separate class to manage enemies!!!
-	private void checkAddBomber() {
-		if (random.nextInt(60) == 1) {
-			new Bomber(this);
+	private void refreshEnemies() {
+		// Add new enemies
+		switch (random.nextInt(100)) {
+			case 1:
+				new Bomber(this);
+				break;
+			case 2:
+				new Scout(this, random.nextBoolean());
+				break;
+		}
+		
+		// Remove dead or disappeared enemies.
+		ListIterator<IEnemy> iter = enemies.listIterator();
+		while (iter.hasNext()) {
+			IEnemy e = iter.next();
+			if (e.getGarbage()) {
+				iter.remove();
+				removeGameObject(e);
+			}
 		}
 	}
 	
@@ -203,8 +221,6 @@ public class Game extends JFrame implements IGame {
 	 */
 	@Override
 	public void update() {
-		checkAddBomber();
-		
 		for (IGameObject o : gameObjects) {
 			o.update();
 		}
@@ -249,21 +265,7 @@ public class Game extends JFrame implements IGame {
 		}
 		
 		enemies.add(e);
-		
-	}
-
-	/**
-	 * Remove enemy from the game.
-	 * 
-	 * @param e Enemy to remove.
-	 */
-	@Override
-	public void removeEnemy(IEnemy e) {
-		if (!enemies.contains(e)) {
-			throw new IllegalArgumentException("Cannot remove nonexistant enemy!");
-		}
-		
-		enemies.remove(e);
+		gameObjects.add(e);
 		
 	}
 
