@@ -36,6 +36,11 @@ public class Enemy implements IEnemy {
 	 * The game context.
 	 */
 	private IGame context;
+	
+	/**
+	 * Schedule item for removal.
+	 */
+	private boolean garbage;
 
 	/**
 	 * Abstract enemy's constructor.
@@ -63,8 +68,16 @@ public class Enemy implements IEnemy {
 			e.printStackTrace();
 			System.err.println("Couldn't load image " + file.getName());
 		}
-		context.addGameObject(this);
 		context.addEnemy(this);
+	}
+
+	/**
+	 * Get this enemy's game context.
+	 * 
+	 * @return The enemy's context.
+	 */
+	public IGame getContext() {
+		return context;
 	}
 
 	/**
@@ -173,6 +186,36 @@ public class Enemy implements IEnemy {
 	@Override
 	public int getSpeed() {
 		return speed;
+	}
+
+	/**
+	 * Set enemy's speed.
+	 * 
+	 * @param speed
+	 *            The enemy's speed.
+	 */
+	@Override
+	public void setSpeed(int speed) {
+		this.speed = speed;
+
+	}
+	
+	/**
+	 * Check if the item has done its job and is ready for removal.
+	 * 
+	 * @return True if the item shoud be removed, False otherwise.
+	 */
+	public boolean getGarbage() {
+		return garbage;
+	}
+
+	/**
+	 * Set whether the item should be removed.
+	 * 
+	 * @param Is item for removal?
+	 */
+	public void setGarbage(boolean garbage) {
+		this.garbage = garbage;
 	}
 
 }

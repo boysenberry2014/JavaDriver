@@ -42,5 +42,22 @@ public interface IGameObject {
 	 * Update the object.
 	 */
 	public void update();
+	
+	/**
+	 * Check if the item has done its job and is ready for removal.
+	 * 
+	 * @return True if the item shoud be removed, False otherwise.
+	 */
+	public default boolean getGarbage() {
+		return false;
+	}
+	
+	/**
+	 * Set whether the item should be removed.
+	 * 
+	 * @param Is item for removal?
+	 */
+	public default void setGarbage(boolean garbage) {
+	}
 
 }

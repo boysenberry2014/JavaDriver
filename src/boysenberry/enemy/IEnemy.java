@@ -17,12 +17,20 @@ public interface IEnemy extends IGameObject {
 	 * @return Is there a collision?
 	 */
 	public boolean checkCollision(IPlayer player);
-	
+
 	/**
 	 * Get the enemy's movement speed.
 	 * 
 	 * @return Enemy's movement speed.
 	 */
 	public int getSpeed();
+
+	/**
+	 * Set the enemy's movement speed.
+	 * 
+	 * @param speed
+	 *            Enemy's new movement speed.
+	 */
+	public void setSpeed(int speed);
 
 }
