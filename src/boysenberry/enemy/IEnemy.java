@@ -16,7 +16,7 @@ public interface IEnemy extends IGameObject {
 	 * 
 	 * @return Is there a collision?
 	 */
-	public boolean checkCollision(IPlayer player);
+	public boolean applyCollision(IGameObject o);
 
 	/**
 	 * Get the enemy's movement speed.
@@ -32,5 +32,12 @@ public interface IEnemy extends IGameObject {
 	 *            Enemy's new movement speed.
 	 */
 	public void setSpeed(int speed);
+	
+	/**
+	 * Get the score for killing an enemy.
+	 * 
+	 * @return Score for killing the enemy.
+	 */
+	public int getScore();
 
 }

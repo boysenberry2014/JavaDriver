@@ -10,14 +10,16 @@ import boysenberry.IPlayer;
  */
 public class Bomber extends Enemy {
 	
+	private int bombCounter = 0;
+	
 	/**
 	 * Create a new bomber.
 	 * 
 	 * @param game The game context.
 	 */
 	public Bomber(IGame game) {
-		super(game, 0, game.getRNG().nextInt(game.getHeight()), 
-				2, new File("lib/img/enemy1.png"));
+		super(game, 0, game.getRNG().nextInt(game.getHeight() / 2), 
+				2, 4, 50, new File("lib/img/enemy1.png"));
 		setX(-getWidth());
 	}
 
@@ -26,26 +28,27 @@ public class Bomber extends Enemy {
 	 */
 	@Override
 	public void update() {
+		super.update();
+		
 		setX(getX() + getSpeed());
 		
 		if (getX() > getContext().getWidth()) {
 			setGarbage(true);
 		}
-
+		
+		if (bombCounter == 100) {
+			spawnBomb();
+			bombCounter = 0;
+		} else {
+			bombCounter++;
+		}
 	}
-
+	
 	/**
-	 * Check for collision with the player.
-	 * 
-	 * @param player
-	 *            The player we are eventually colliding with.
-	 * 
-	 * @return Is there a collision?
+	 * Spawn a bomb if needed.
 	 */
-	@Override
-	public boolean checkCollision(IPlayer player) {
-		// TODO Auto-generated method stub
-		return false;
+	private void spawnBomb() {
+		new Bomb(getContext(), getX() + getWidth() / 2, getY() + getHeight());
 	}
 
 }

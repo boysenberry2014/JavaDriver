@@ -3,7 +3,7 @@ package boysenberry.enemy;
 import java.io.File;
 
 import boysenberry.IGame;
-import boysenberry.IPlayer;
+import boysenberry.IGameObject;
 
 /**
  * Flies horizontally and throws bombs.
@@ -23,52 +23,35 @@ public class Scout extends Enemy {
 	 */
 	public Scout(IGame game, boolean direction) {
 		super(game, 0, game.getRNG().nextInt(game.getHeight()),
-				(direction ? 3 : -3), new File(direction ? "lib/img/enemy2.png" : "lib/img/enemy2_backwards.png"));
+				(direction ? 3 : -3), 5, 5, new File(direction ? "lib/img/enemy2.png" : "lib/img/enemy2_backwards.png"));
 		setX(direction ? -getWidth() : game.getWidth());
 		this.direction = direction;
 	}
 
 	/**
-	 * Update the bomber.
+	 * Update the scout.
 	 */
 	@Override
 	public void update() {
-		//TODO: Put these in enemy manager class!
-		if (direction) {
-			if (getX() > getContext().getWidth()) {
-				setGarbage(true);
-			}
-		} else {
-			if (getX() + getWidth() < 0) {
-				setGarbage(true);
-			}
-		}
-		////////////////////////////////////////
-		
+		super.update();
 		setX(getX() + getSpeed());
+		
+		//TODO: Put these in enemy manager class!
 		if (direction) {
 			if (getX() > getWidth() * 2) {
 				setSpeed(getSpeed() + 1);
+			}
+			if (getX() > getContext().getWidth()) {
+				setGarbage(true);
 			}
 		} else {
 			if (getX() < getContext().getWidth() - getWidth() * 2) {
 				setSpeed(getSpeed() - 1);
 			}
+			if (getX() + getWidth() < 0) {
+				setGarbage(true);
+			}
 		}
+		////////////////////////////////////////
 	}
-
-	/**
-	 * Check for collision with the player.
-	 * 
-	 * @param player
-	 *            The player we are eventually colliding with.
-	 * 
-	 * @return Is there a collision?
-	 */
-	@Override
-	public boolean checkCollision(IPlayer player) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 }

@@ -1,16 +1,18 @@
 package boysenberry;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
+
 import java.util.Random;
 
 import javax.swing.JFrame;
 
+import boysenberry.enemy.Asteroid;
 import boysenberry.enemy.Bomber;
 import boysenberry.enemy.IEnemy;
 import boysenberry.enemy.Scout;
@@ -25,7 +27,7 @@ import boysenberry.enemy.Scout;
  */
 @SuppressWarnings("serial")
 public class Game extends JFrame implements IGame {
-
+	
 	/**
 	 * Game window width.
 	 */
@@ -37,15 +39,10 @@ public class Game extends JFrame implements IGame {
 	public static int windowHeight = 600;
 
 	/**
-	 * Does the game need to quit?
-	 */
-	private boolean done;
-
-	/**
 	 * The game's frames per second rate.
 	 */
 	private int fps = 60;
-
+	
 	/**
 	 * Specify game's border.
 	 */
@@ -73,10 +70,40 @@ public class Game extends JFrame implements IGame {
 	private List<IGameObject> gameObjects;
 	
 	/**
+	 * The game player.
+	 */
+	private IPlayer player;
+	
+	/**
 	 * Enemies also need to add themselves here.
 	 */
 	private List<IEnemy> enemies;
 
+	/**
+	 * The game score.
+	 */
+	private int score = 0;
+	
+	/**
+	 * At what score steps do we increase difficulty?
+	 */
+	private static int scoreThreshold = 100;
+	
+	/**
+	 * The starting difficulty.
+	 */
+	private static int spawnTimerMax = 140;
+	
+	/**
+	 * The last difficulty.
+	 */
+	private static int spawnTimerMin = 40;
+	
+	/**
+	 * Lower this to increase difficulty.
+	 */
+	private int spawnTimer = spawnTimerMax;
+	
 	/**
 	 * Initialize everything needed to run.
 	 */
@@ -95,7 +122,7 @@ public class Game extends JFrame implements IGame {
 		random = new Random();
 		
 		gameObjects = new ArrayList<IGameObject>();
-		new Player(this, rearBuffer.getWidth() / 2, rearBuffer.getHeight() / 2,
+		player = new Player(this, rearBuffer.getWidth() / 2, rearBuffer.getHeight() / 2,
 				5);
 		
 		enemies = new ArrayList<IEnemy>();
@@ -126,15 +153,29 @@ public class Game extends JFrame implements IGame {
 	}
 	
 	/**
-	 * Add object to Game's container of gameObjects
+	 * Remove object from Game's container of gameObjects
 	 * 
 	 * @param o
-	 *            The game object to be added to the list.
+	 *            The game object to be removed from the list.
 	 */
 	private void removeGameObject(IGameObject o) {
 		if (!gameObjects.contains(o))
 			throw new IllegalArgumentException("Cannot remove nonexistant object.");
 		gameObjects.remove(o);
+	}
+	
+	/**
+	 * Remove object from Game's container of gameObjects
+	 * 
+	 * @param o
+	 *            The game object to be removed from the list.
+	 */
+	private void removeEnemy(IEnemy e) {
+		if (!enemies.contains(e))
+			throw new IllegalArgumentException("Cannot remove nonexistant object.");
+		score += e.getScore();
+		enemies.remove(e);
+		removeGameObject(e);
 	}
 
 	/**
@@ -158,21 +199,60 @@ public class Game extends JFrame implements IGame {
 		return handler;
 	}
 
-	/**
-	 * This method actually runs the game.
+	/*
+	 * TODO: States should be separate classes, but I've got no time
+	 * to do it!
 	 */
-	@Override
-	public void run() {
-		while (!done) {
+	private void menu() {
+		play();
+	}
+	
+	private void play() {
+		while (true) {
 			long time = System.currentTimeMillis();
 			refreshEnemies();
 			update();
 			draw();
 			syncFrames(time);
-
+			
+			if (player.getHP() < 1) {
+				break;
+			}
 		}
+		
+		over();
+	}
+	
+	private void over() {
+		// TODO: Refactor this.
+		Graphics rear = rearBuffer.getGraphics();
+		rear.setColor(Color.BLACK);
+		rear.fillRect(0, 0, rearBuffer.getWidth(), rearBuffer.getHeight());
 
-		setVisible(false);
+		Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 36);
+		rear.setFont(font);
+		
+		rear.setColor(Color.RED);
+		String over = "GAME OVER";
+		int textX = (getWidth() - (int)rear.getFontMetrics().getStringBounds(over, rear).getWidth()) / 2;
+		int textY = (getHeight() - rear.getFontMetrics().getHeight()) / 2;
+		rear.drawString(over, textX, textY);
+		
+		rear.setColor(Color.WHITE);
+		over = "Your score: " + score;
+		textX = (getWidth() - (int)rear.getFontMetrics().getStringBounds(over, rear).getWidth()) / 2;
+		textY += rear.getFontMetrics().getHeight();
+		rear.drawString(over, textX, textY);
+		
+		getGraphics().drawImage(rearBuffer, insets.left, insets.top, this);		
+	}
+	
+	/**
+	 * This method actually runs the game.
+	 */
+	@Override
+	public void run() {
+		menu();
 	}
 
 	/**
@@ -195,8 +275,12 @@ public class Game extends JFrame implements IGame {
 	
 	// TODO: Use separate class to manage enemies!!!
 	private void refreshEnemies() {
+		
 		// Add new enemies
-		switch (random.nextInt(100)) {
+		switch (random.nextInt(spawnTimer)) {
+			case 0:
+				new Asteroid(this);
+				break;
 			case 1:
 				new Bomber(this);
 				break;
@@ -206,13 +290,9 @@ public class Game extends JFrame implements IGame {
 		}
 		
 		// Remove dead or disappeared enemies.
-		ListIterator<IEnemy> iter = enemies.listIterator();
-		while (iter.hasNext()) {
-			IEnemy e = iter.next();
-			if (e.getGarbage()) {
-				iter.remove();
-				removeGameObject(e);
-			}
+		for (int i = 0; i < enemies.size(); ++i) {
+			if (enemies.get(i).getGarbage())
+				removeEnemy(enemies.get(i));
 		}
 	}
 	
@@ -221,8 +301,29 @@ public class Game extends JFrame implements IGame {
 	 */
 	@Override
 	public void update() {
-		for (IGameObject o : gameObjects) {
-			o.update();
+		
+		for (int i = 0; i < enemies.size(); ++i) {
+			if (enemies.get(i).applyCollision(player)) {
+				player.hit();
+			}
+			
+			for (int j = 0; j < player.getBullets().size(); ++j) {
+				if (enemies.get(i).applyCollision(player.getBullets().get(j))) {
+					player.getBullets().get(j).hit();
+				}
+			}
+		}
+		
+		
+		
+		for (int i = 0; i < gameObjects.size(); ++i) {
+			gameObjects.get(i).update();
+		}
+		
+		
+		if (score > (scoreThreshold * (spawnTimerMax - spawnTimer)) 
+				&& spawnTimer > spawnTimerMin) {
+			spawnTimer -= 1;
 		}
 	}
 
@@ -235,13 +336,17 @@ public class Game extends JFrame implements IGame {
 		rear.setColor(Color.BLACK);
 		rear.fillRect(0, 0, rearBuffer.getWidth(), rearBuffer.getHeight());
 
+		rear.setColor(Color.WHITE);
+		rear.drawString("Score: " + score, 5, 20);
+		rear.drawString("Health: " + player.getHP(), 5, 40);
+		
 		for (IGameObject o : gameObjects) {
 			o.draw();
 		}
 
 		getGraphics().drawImage(rearBuffer, insets.left, insets.top, this);
 	}
-
+	
 	/**
 	 * Main method for the game.
 	 *

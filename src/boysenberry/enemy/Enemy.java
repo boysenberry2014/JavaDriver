@@ -9,9 +9,10 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import boysenberry.IGame;
+import boysenberry.IGameObject;
 import boysenberry.IPlayer;
 
-public class Enemy implements IEnemy {
+public abstract class Enemy implements IEnemy {
 	/**
 	 * Enemy's x coordinate.
 	 */
@@ -43,6 +44,16 @@ public class Enemy implements IEnemy {
 	private boolean garbage;
 
 	/**
+	 * The score you get for killing this.
+	 */
+	private int score;
+
+	/**
+	 * The hitpoints of this enemy.
+	 */
+	private int hitPoints;
+
+	/**
 	 * Abstract enemy's constructor.
 	 * 
 	 * @param game
@@ -53,14 +64,23 @@ public class Enemy implements IEnemy {
 	 *            The y coordinate.
 	 * @param speed
 	 *            The speed.
-	 * @param ImageIO.read(new File("lib/img/player.png"))
+	 * 
+	 * @param score
+	 *            What pts you get for killing this.
+	 * 
+	 * @param hitPoints
+	 *            How hard is this to kill.
+	 * 
+	 * @param file
 	 *            The picture avatar.
 	 */
-	public Enemy(IGame game, int x, int y, int speed, File file) {
+	public Enemy(IGame game, int x, int y, int speed, int score, int hitPoints, File file) {
 		this.context = game;
 		this.x = x;
 		this.y = y;
 		this.speed = speed;
+		this.score = score;
+		this.hitPoints = hitPoints;
 		
 		try {
 			this.image = ImageIO.read(file);
@@ -110,12 +130,15 @@ public class Enemy implements IEnemy {
 	}
 
 	/**
-	 * Do nothing.
+	 * Check if the enemy is dead.
 	 * <p>
-	 * Override this in child classes.
+	 * Call this in child classes.
 	 */
 	@Override
 	public void update() {
+		if (hitPoints < 1) {
+			setGarbage(true);
+		}
 	}
 
 	/**
@@ -124,18 +147,24 @@ public class Enemy implements IEnemy {
 	 * Checks for 2 rectangles collision. If you need another kind of collision,
 	 * override this method in child class.
 	 * 
-	 * @param player
+	 * @param o
 	 *            The player.
 	 * @return Is there a collision?
 	 */
 	@Override
-	public boolean checkCollision(IPlayer player) {
+	public boolean applyCollision(IGameObject o) {
 		Rectangle rect = new Rectangle(x, y, image.getWidth(),
 				image.getHeight());
-		Rectangle playerRect = new Rectangle(player.getX(), player.getY(),
-				player.getWidth(), player.getHeight());
+		Rectangle otherRect = new Rectangle(o.getX(), o.getY(),
+				o.getWidth(), o.getHeight());
 
-		return rect.intersects(playerRect);
+		if (rect.intersects(otherRect)) {
+			score += 1;
+			hitPoints -= 1;
+			return true;
+		}
+		
+		return false;
 	}
 
 	/**
@@ -216,6 +245,15 @@ public class Enemy implements IEnemy {
 	 */
 	public void setGarbage(boolean garbage) {
 		this.garbage = garbage;
+	}
+	
+	/**
+	 * Get the score for killing an enemy.
+	 * 
+	 * @return Score for killing the enemy.
+	 */
+	public int getScore() {
+		return score;
 	}
 
 }
