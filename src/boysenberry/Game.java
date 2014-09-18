@@ -5,11 +5,13 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import java.util.Random;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import boysenberry.enemy.Asteroid;
@@ -204,6 +206,33 @@ public class Game extends JFrame implements IGame {
 	 * to do it!
 	 */
 	private void menu() {
+		Graphics rear = rearBuffer.getGraphics();
+		rear.setColor(Color.BLACK);
+		rear.fillRect(0, 0, rearBuffer.getWidth(), rearBuffer.getHeight());
+		
+		BufferedImage splash = null;
+		
+		try {
+			splash = ImageIO.read(new File("lib/img/logo.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.err.println("Unable to find logo image.");
+			System.exit(1);
+		}
+
+		int splashX = (this.getWidth() - splash.getWidth(null)) / 2;
+	    int splashY = (this.getHeight() - splash.getHeight(null)) / 2;
+		rear.drawImage(splash, splashX, splashY, null);
+		
+		getGraphics().drawImage(rearBuffer, insets.left, insets.top, this);
+		
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+		
 		play();
 	}
 	

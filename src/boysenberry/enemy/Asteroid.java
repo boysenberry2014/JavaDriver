@@ -11,7 +11,8 @@ public class Asteroid extends FallingEnemy {
 	private static String[] asteroidsFiles = new String[] {
 		"asteroid1.png",
 		"asteroid2.png",
-		"asteroid3.png"
+		"asteroid3.png",
+		"asteroid4.png"
 	};
 	
 	private static String randomFile(Random random) {
