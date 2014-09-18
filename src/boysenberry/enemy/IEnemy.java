@@ -1,7 +1,6 @@
 package boysenberry.enemy;
 
 import boysenberry.IGameObject;
-import boysenberry.IPlayer;
 
 /**
  * Interface for enemy objects.

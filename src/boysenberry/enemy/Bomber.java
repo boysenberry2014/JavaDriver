@@ -3,7 +3,6 @@ package boysenberry.enemy;
 import java.io.File;
 
 import boysenberry.IGame;
-import boysenberry.IPlayer;
 
 /**
  * Flies horizontally and throws bombs.

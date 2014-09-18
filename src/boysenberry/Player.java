@@ -51,8 +51,6 @@ public class Player implements IPlayer {
 	 */
 	private Instant lastHitTime;
 	
-	private Instant lastBulletFired;
-	
 	List<Bullet> bullets;
 	
 	/**
@@ -72,7 +70,6 @@ public class Player implements IPlayer {
 		this.speed = speed;
 		this.context = context;
 		this.lastHitTime = Instant.EPOCH;
-		this.lastBulletFired = Instant.EPOCH;
 		this.bullets = new ArrayList<Bullet>();
 		
 		File imgFile = new File("lib/img/player.png");

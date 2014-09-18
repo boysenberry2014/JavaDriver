@@ -10,7 +10,6 @@ import javax.imageio.ImageIO;
 
 import boysenberry.IGame;
 import boysenberry.IGameObject;
-import boysenberry.IPlayer;
 
 public abstract class Enemy implements IEnemy {
 	/**
