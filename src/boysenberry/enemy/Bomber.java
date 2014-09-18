@@ -9,7 +9,15 @@ import boysenberry.IGame;
  */
 public class Bomber extends Enemy {
 	
+	/**
+	 * When value gets to max, drop a bomb.
+	 */
 	private int bombCounter = 0;
+	
+	/**
+	 * The max bombCounter value.
+	 */
+	private int bombCounterMax = 100;
 	
 	/**
 	 * Create a new bomber.
@@ -35,8 +43,8 @@ public class Bomber extends Enemy {
 			setGarbage(true);
 		}
 		
-		if (bombCounter == 100) {
-			spawnBomb();
+		if (bombCounter == bombCounterMax) {
+			dropBomb();
 			bombCounter = 0;
 		} else {
 			bombCounter++;
@@ -44,9 +52,9 @@ public class Bomber extends Enemy {
 	}
 	
 	/**
-	 * Spawn a bomb if needed.
+	 * Drop a bomb.
 	 */
-	private void spawnBomb() {
+	private void dropBomb() {
 		new Bomb(getContext(), getX() + getWidth() / 2, getY() + getHeight());
 	}
 

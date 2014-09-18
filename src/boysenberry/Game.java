@@ -236,6 +236,9 @@ public class Game extends JFrame implements IGame {
 		play();
 	}
 	
+	/**
+	 * The play state.
+	 */
 	private void play() {
 		while (true) {
 			long time = System.currentTimeMillis();
@@ -252,6 +255,9 @@ public class Game extends JFrame implements IGame {
 		over();
 	}
 	
+	/**
+	 * The game over state.
+	 */
 	private void over() {
 		// TODO: Refactor this.
 		Graphics rear = rearBuffer.getGraphics();
@@ -303,6 +309,9 @@ public class Game extends JFrame implements IGame {
 	}
 	
 	// TODO: Use separate class to manage enemies!!!
+	/**
+	 * Add/Remove enemies.
+	 */
 	private void refreshEnemies() {
 		
 		// Add new enemies

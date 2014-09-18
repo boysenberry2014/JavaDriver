@@ -24,7 +24,6 @@ public class UserInputHandler implements KeyListener {
 	 * @param c
 	 *            Item to get input from.
 	 */
-
 	public UserInputHandler(Component c) {
 		keys = new boolean[keysCount];
 		c.addKeyListener(this);

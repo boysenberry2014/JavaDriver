@@ -128,12 +128,11 @@ public class Player implements IPlayer {
 		}
 	}
 
+	/**
+	 * Fire a bullet.
+	 */
 	private void fireBullet() {
-//		if (Instant.now().getEpochSecond() > lastBulletFired.getEpochSecond()) {
-			bullets.add(new Bullet(context, getX() + (getWidth())/ 2, getY()));
-//			lastBulletFired = Instant.now();
-//		}
-		
+		bullets.add(new Bullet(context, getX() + (getWidth())/ 2, getY()));
 	}
 	
 	
@@ -196,6 +195,11 @@ public class Player implements IPlayer {
 		return hitPoints;
 	}
 
+	/**
+	 * Get the player's list of bullets.
+	 * 
+	 * @return The bullets, duh!
+	 */
 	@Override
 	public List<Bullet> getBullets() {
 		return bullets;

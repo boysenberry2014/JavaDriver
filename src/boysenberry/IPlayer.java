@@ -17,5 +17,10 @@ public interface IPlayer extends IGameObject {
 	 */
 	public int getHP();
 	
+	/**
+	 * Get the player's active bullet objects.
+	 *
+	 * @return List of active ally bullets.
+	 */
 	public List<Bullet> getBullets();
 }
