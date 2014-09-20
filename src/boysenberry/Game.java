@@ -328,9 +328,13 @@ public class Game extends JFrame implements IGame {
 		}
 		
 		// Remove dead or disappeared enemies.
-		for (int i = 0; i < enemies.size(); ++i) {
-			if (enemies.get(i).getGarbage())
+		int i = 0;
+		while (i < enemies.size()) {
+			if (enemies.get(i).getGarbage()) {
 				removeEnemy(enemies.get(i));
+			} else {
+				++i;
+			}
 		}
 	}
 	

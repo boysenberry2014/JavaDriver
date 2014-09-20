@@ -9,10 +9,10 @@ import boysenberry.IGame;
  */
 public class Scout extends Enemy {
 	
+	//TODO: A direction class!
 	/**
 	 * The scout's direction. True for right, false for left. 
 	 */
-	//TODO: A direction class!
 	private boolean direction;
 	
 	/**

@@ -119,11 +119,13 @@ public class Player implements IPlayer {
 			fireBullet();
 		}
 		
-		for (int i = 0; i < bullets.size(); ++i) {
+		int i = 0;
+		while (i < bullets.size()) {
 			if (bullets.get(i).getGarbage()) {
 				bullets.remove(bullets.get(i));
 			} else {
 				bullets.get(i).update();
+				++i;
 			}
 		}
 	}
